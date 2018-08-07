@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package pb;
+
+service ItemService {
+  rpc getItem (getItemRequest) returns (getItemResponse) {}
+  rpc getItems (getItemsRequest) returns (getItemsResponse) {}
+  rpc postItem (postItemRequest) returns (postItemResponse) {}
+}
+
+message Item {
+  int32 id = 1;
+  string name = 2;
+  int32 price = 3;
+}
+
+message getItemRequest {
+  int32 id = 1;
+}
+
+message getItemResponse {
+  Item item = 1;
+}
+
+message getItemsRequest {
+  int32 skip = 1;
+  int32 take = 2;
+}
+
+message getItemsResponse {
+  repeated Item items = 1;
+}
+
+message postItemRequest {
+  string name = 1;
+  int32 price = 2;
+}
+
+message postItemResponse {
+  Item item = 1;
+}
