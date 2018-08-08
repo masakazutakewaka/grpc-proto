@@ -2,12 +2,14 @@ package main
 
 import (
 	"log"
+	"os"
 
 	"wear-proto/item"
 )
 
 func main() {
-	dbURL = ""
+	dbURL := os.Getenv("DATABASE_URL")
+
 	repo, err := item.NewPostgresRepository(dbURL)
 	if err != nil {
 		log.Fatal(err)
