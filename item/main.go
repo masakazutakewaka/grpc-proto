@@ -4,7 +4,7 @@ import (
 	"log"
 	"os"
 
-	"wear-proto/item"
+	"github.com/masakazutakewaka/grpc-proto/item"
 )
 
 func main() {

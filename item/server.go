@@ -7,7 +7,8 @@ import (
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
-	"wear-proto/item/pb"
+
+	"github.com/masakazutakewaka/grpc-proto/item/pb"
 )
 
 type itemServer struct {
