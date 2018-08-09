@@ -6,9 +6,10 @@ services:
       context: "."
       dockerfile: "./item/app.dockerfile"
     depends_on:
-      - "account_db"
+      - "item_db"
     environment:
       DATABASE_URL: "postgres://item_db:grpc-proto:?user=takewaka&password=takewaka&ssl=false"
+
   item_db:
     build:
       context: "./item"

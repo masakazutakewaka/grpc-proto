@@ -1,4 +1,4 @@
-FROM Postgres:10.3
+FROM postgres:10.3
 
 COPY create_table.sql /docker-enterpoint-initdb.d/
 
