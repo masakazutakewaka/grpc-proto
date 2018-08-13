@@ -5,13 +5,15 @@ import (
 	"database/sql"
 
 	_ "github.com/lib/pq"
+
+	"github.com/masakazutakewaka/grpc-proto/item/pb"
 )
 
 type Repository interface {
 	Close()
-	GetItemByID(ctx cotext.Context, id int32) (*Item, error)
+	GetItemByID(ctx context.Context, id int32) (*pb.Item, error)
 	//ListItems(ctx context.Context, skip uint32, take uint32) ([]Item, error)
-	//InsertItem(ctx cotext.Context, id int32) error
+	//InsertItem(ctx context.Context, id int32) error
 }
 
 type postgresRepository struct {
@@ -21,12 +23,12 @@ type postgresRepository struct {
 func NewPostgresRepository(url string) (Repository, error) {
 	db, err := sql.Open("postgres", url)
 	if err != nil {
-		return nil.err
+		return nil, err
 	}
 
 	err = db.Ping()
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	return &postgresRepository{db}, nil
@@ -40,10 +42,10 @@ func (r *postgresRepository) Ping() error {
 	return r.db.Ping()
 }
 
-func (r *postgresRepository) GetItemByID(ctx cotext.Context, id int32) (*Item, error) {
+func (r *postgresRepository) GetItemByID(ctx context.Context, id int32) (*pb.Item, error) {
 	row := r.db.QueryRowContext(ctx, "SELECT id, name, price FROM items WHERE id = $1", id)
-	item := &Item{}
-	if err := row.Scan(&a.ID, &a.Name); err != nil {
+	item := &pb.Item{}
+	if err := row.Scan(&item.Id, &item.Name); err != nil {
 		return nil, err
 	}
 	return item, nil

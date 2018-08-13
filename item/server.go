@@ -12,31 +12,32 @@ import (
 )
 
 type itemServer struct {
-	r Repository
+	service Service
 }
 
-func ListenGRPC(r Repository, port int) error {
-	listen, err := net.listen("tcp", fmt.Sprintf(":%d", port))
+func ListenGRPC(s Service, port int) error {
+	listen, err := net.Listen("tcp", fmt.Sprintf(":%d", port))
 	if err != nil {
 		return err
 	}
 	server := grpc.NewServer()
-	pb.RegisterItemServer(server, &itemServer{r})
+	pb.RegisterItemServiceServer(server, &itemServer{s})
 	reflection.Register(server)
 	return server.Serve(listen)
 }
 
 func (s *itemServer) GetItem(ctx context.Context, r *pb.GetItemRequest) (*pb.GetItemResponse, error) {
-	item, err := s.r.GetItemByID(r.ID)
+	item, err := s.r.GetItemByID(ctx, r.Id)
 	if err != nil {
-		log.Println(err)
 		return nil, err
 	}
 	return &pb.GetItemResponse{
-		Id:    item.ID,
-		Name:  item.Name,
-		Price: item.Price,
-	}
+		Item: &pb.Item{
+			Id:    item.Id,
+			Name:  item.Name,
+			Price: item.Price,
+		},
+	}, nil
 }
 
 //func (s *itemServer) GetItems(ctx context.Context, r *pb.GetItemsRequest) (*pb.GetItemsResponse, error) { }
