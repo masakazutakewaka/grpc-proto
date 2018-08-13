@@ -27,7 +27,7 @@ func ListenGRPC(s Service, port int) error {
 }
 
 func (s *itemServer) GetItem(ctx context.Context, r *pb.GetItemRequest) (*pb.GetItemResponse, error) {
-	item, err := s.r.GetItemByID(ctx, r.Id)
+	item, err := s.service.GetItem(ctx, r.Id)
 	if err != nil {
 		return nil, err
 	}
@@ -40,6 +40,18 @@ func (s *itemServer) GetItem(ctx context.Context, r *pb.GetItemRequest) (*pb.Get
 	}, nil
 }
 
-//func (s *itemServer) GetItems(ctx context.Context, r *pb.GetItemsRequest) (*pb.GetItemsResponse, error) { }
+func (s *itemServer) GetItems(ctx context.Context, r *pb.GetItemsRequest) (*pb.GetItemsResponse, error) {
+	items, err := s.service.GetItems(ctx, r.skip, r.take)
+	if err != nil {
+		return nil, err
+	}
+	return &pb.GetItemsResponse{Item: items}, nil
+}
 
-//func (s *itemServer) PostItem(ctx context.Context, r *pb.PostItemRequest) (*pb.PostItemResponse, error) { }
+func (s *itemServer) PostItem(ctx context.Context, r *pb.PostItemRequest) (*pb.PostItemResponse, error) {
+	item, err := s.service.PostItem(ctx, r.name, r.price)
+	if err != nil {
+		return nil, err
+	}
+	return &pb.PostItemResponse{Item: item}, nil
+}
