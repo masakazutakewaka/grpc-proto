@@ -12,7 +12,7 @@ import (
 type Repository interface {
 	Close()
 	GetItemByID(ctx context.Context, id int32) (*pb.Item, error)
-	ListItems(ctx context.Context, skip uint32, take uint32) ([]pb.Item, error)
+	ListItems(ctx context.Context, skip int32, take int32) ([]*pb.Item, error)
 	InsertItem(ctx context.Context, name string, price int32) error
 }
 
@@ -45,18 +45,24 @@ func (r *postgresRepository) Ping() error {
 func (r *postgresRepository) GetItemByID(ctx context.Context, id int32) (*pb.Item, error) {
 	row := r.db.QueryRowContext(ctx, "SELECT id, name, price FROM items WHERE id = $1", id)
 	item := &pb.Item{}
-	if err := row.Scan(&item.Id, &item.Name); err != nil {
+	if err := row.Scan(item.Id, item.Name, item.Price); err != nil {
 		return nil, err
 	}
 	return item, nil
 }
 
-func (r *postgresRepository) ListItems(ctx context.Context, skip uint32, take uint32) ([]pb.Item, error) {
-	rows := r.db.QueryContext(ctx, "SELECT id, name, price FROM items OFFSET $1 LIMIT $2", skip, take)
-	items := []pb.Item{}
-	for rows.Next {
-		item = pb.Item{}
-		err = rows.Scan(&item.id, &item.name, &item.price)
+func (r *postgresRepository) ListItems(ctx context.Context, skip int32, take int32) ([]*pb.Item, error) {
+	rows, err := r.db.QueryContext(ctx, "SELECT id, name, price FROM items OFFSET $1 LIMIT $2", skip, take)
+	items := []*pb.Item{}
+	if err != nil {
+		return nil, err
+	}
+
+	for rows.Next() {
+		item := &pb.Item{}
+		if err := rows.Scan(item.Id, item.Name, item.Price); err != nil {
+			break
+		}
 		items = append(items, item)
 	}
 	if err := rows.Err(); err != nil {
