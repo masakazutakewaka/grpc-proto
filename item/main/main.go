@@ -16,6 +16,5 @@ func main() {
 	}
 
 	log.Println("listen to port 8080 ...")
-	server := itemServer{}
 	log.Fatal(item.ListenGRPC(repo, 8080))
 }

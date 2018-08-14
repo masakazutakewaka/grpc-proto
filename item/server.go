@@ -1,8 +1,8 @@
 package item
 
 import (
-	"context"
 	"fmt"
+	"golang.org/x/net/context"
 	"net"
 
 	"google.golang.org/grpc"
@@ -35,17 +35,18 @@ func (s *itemServer) GetItem(ctx context.Context, r *pb.GetItemRequest) (*pb.Get
 }
 
 func (s *itemServer) GetItems(ctx context.Context, r *pb.GetItemsRequest) (*pb.GetItemsResponse, error) {
-	items, err := s.r.ListItems(ctx, r.skip, r.take)
+	items, err := s.r.ListItems(ctx, r.Skip, r.Take)
 	if err != nil {
 		return nil, err
 	}
-	return &pb.GetItemsResponse{Item: items}, nil
+	return &pb.GetItemsResponse{Items: items}, nil
 }
 
 func (s *itemServer) PostItem(ctx context.Context, r *pb.PostItemRequest) (*pb.PostItemResponse, error) {
-	item, err := s.r.InsertItem(ctx, r.name, r.price)
+	err := s.r.InsertItem(ctx, r.Name, r.Price)
 	if err != nil {
 		return nil, err
 	}
+	item := &pb.Item{}
 	return &pb.PostItemResponse{Item: item}, nil
 }
