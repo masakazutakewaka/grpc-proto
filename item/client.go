@@ -23,8 +23,8 @@ func NewClient(url string) (*Client, error) {
 	return &Client{conn, client}, nil
 }
 
-func (client *Client) GetItem(ctx Context.context, id int32) (*pb.Item, error) {
-	res, err := client.GetItem(ctx, &pb.GetItemRequest{Id: id})
+func (client *Client) GetItem(ctx context.Context, id int32) (*pb.Item, error) {
+	res, err := client.service.GetItem(ctx, &pb.GetItemRequest{Id: id})
 	if err != nil {
 		return nil, err
 	}
@@ -35,18 +35,16 @@ func (client *Client) GetItem(ctx Context.context, id int32) (*pb.Item, error) {
 	}, nil
 }
 
-func (client *Client) GetItems(ctx Context.context, skip int32, take int32) (*pb.Items, error) {
-	res, err := client.GetItem(ctx, &pb.GetItemRequest{Skip: skip, Take: take})
+func (client *Client) GetItems(ctx context.Context, skip int32, take int32) ([]*pb.Item, error) {
+	res, err := client.service.GetItems(ctx, &pb.GetItemsRequest{Skip: skip, Take: take})
 	if err != nil {
 		return nil, err
 	}
-	return &pb.Items{
-		Items: res.Items,
-	}, nil
+	return res.Items, nil
 }
 
-func (client *Client) PostItem(ctx Context.context, name string, price int32) (*pb.Item, error) {
-	res, err := client.PostItem(ctx, &pb.PostItemRequest{Name: name, Price: price})
+func (client *Client) PostItem(ctx context.Context, name string, price int32) (*pb.Item, error) {
+	res, err := client.service.PostItem(ctx, &pb.PostItemRequest{Name: name, Price: price})
 	if err != nil {
 		return nil, err
 	}
