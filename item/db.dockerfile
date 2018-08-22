@@ -2,4 +2,8 @@ FROM postgres:10.3
 
 COPY create_table.sql /docker-enterpoint-initdb.d/
 
-CMD postgres
+USER postgres
+
+EXPOSE 5432
+
+CMD  ["postgres"]

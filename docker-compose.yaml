@@ -8,14 +8,14 @@ services:
     depends_on:
       - "item_db"
     environment:
-      DATABASE_URL: "postgres://item_db:grpc-proto:?user=takewaka&password=takewaka&ssl=false"
+      DATABASE_URL: "postgres://postgres:takewaka@item_db:grpcproto?sslmode=disable&port=5432"
 
   item_db:
     build:
       context: "./item"
       dockerfile: "./db.dockerfile"
     environment:
-      POSTGRES_DB: "grpc-proto"
-      POSTGRES_USER: "takewaka"
+      POSTGRES_DB: "grpcproto"
+      POSTGRES_USER: "postgres"
       POSTGRES_PASSWORD: "takewaka"
     restart: "unless-stopped"
