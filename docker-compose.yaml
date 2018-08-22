@@ -19,3 +19,10 @@ services:
       POSTGRES_USER: "takewaka"
       POSTGRES_PASSWORD: "takewaka"
     restart: "unless-stopped"
+
+  item_client:
+    build:
+      context: "."
+      dockerfile: "./cli/cli.dockerfile"
+    environment:
+      ITEM_URL: "item:8080"
