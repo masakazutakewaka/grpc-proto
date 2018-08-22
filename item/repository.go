@@ -1,8 +1,8 @@
 package item
 
 import (
-	"context"
 	"database/sql"
+	"golang.org/x/net/context"
 
 	_ "github.com/lib/pq"
 
