@@ -26,5 +26,26 @@ services:
       dockerfile: "./cli/cli.dockerfile"
     depends_on:
       - "item"
+      - "user"
     environment:
       ITEM_URL: "item:8080"
+      USER_URL: "user:8080"
+
+  user:
+    build:
+      context: "."
+      dockerfile: "./user/app.dockerfile"
+    depends_on:
+      - "user_db"
+    environment:
+      DATABASE_URL: "postgres://takewaka:takewaka@user_db/grpcproto?sslmode=disable"
+
+  user_db:
+    build:
+      context: "./user"
+      dockerfile: "./db.dockerfile"
+    environment:
+      POSTGRES_DB: "grpcproto"
+      POSTGRES_USER: "takewaka"
+      POSTGRES_PASSWORD: "takewaka"
+    restart: "unless-stopped"
