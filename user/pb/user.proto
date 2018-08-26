@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package pb;
+
+service UserService {
+  rpc getUser (getUserRequest) returns (getUserResponse) {}
+  rpc getUsers (getUsersRequest) returns (getUsersResponse) {}
+  rpc postUser (postUserRequest) returns (postUserResponse) {}
+}
+
+message User {
+  int32 id = 1;
+  string name = 2;
+}
+
+message getUserRequest {
+  int32 id = 1;
+}
+
+message getUserResponse {
+  User user = 1;
+}
+
+message getUsersRequest {
+  int32 skip = 1;
+  int32 take = 2;
+}
+
+message getUsersResponse {
+  repeated User users = 1;
+}
+
+message postUserRequest {
+  string name = 1;
+}
+
+message postUserResponse {
+}
