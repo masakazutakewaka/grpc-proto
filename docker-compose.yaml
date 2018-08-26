@@ -24,5 +24,7 @@ services:
     build:
       context: "."
       dockerfile: "./cli/cli.dockerfile"
+    depends_on:
+      - "item"
     environment:
       ITEM_URL: "item:8080"
