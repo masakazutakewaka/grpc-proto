@@ -6,23 +6,42 @@ import (
 	"os"
 
 	"github.com/masakazutakewaka/grpc-proto/item"
+	"github.com/masakazutakewaka/grpc-proto/user"
 )
 
 func main() {
 	itemURL := os.Getenv("ITEM_URL")
+	userURL := os.Getenv("USER_URL")
 
-	client, err := item.NewClient(itemURL)
+	userClient, err := user.NewClient(userURL)
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer client.Close()
+	defer userClient.Close()
 
-	_, err = client.PostItem(context.Background(), "hat", 1555)
+	err = userClient.PostUser(context.Background(), "takewaka")
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	item, err := client.GetItem(context.Background(), 1)
+	user, err := userClient.GetUser(context.Background(), 1)
+	if err != nil {
+		log.Fatal(err)
+	}
+	log.Println(user)
+
+	itemClient, err := item.NewClient(itemURL)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer itemClient.Close()
+
+	_, err = itemClient.PostItem(context.Background(), "hat", 1555)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	item, err := itemClient.GetItem(context.Background(), 1)
 	if err != nil {
 		log.Fatal(err)
 	}
