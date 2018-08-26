@@ -15,6 +15,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	defer client.Close()
 
 	_, err = client.PostItem(context.Background(), "hat", 1555)
 	if err != nil {

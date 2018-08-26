@@ -17,10 +17,13 @@ func NewClient(url string) (*Client, error) {
 	if err != nil {
 		return nil, err
 	}
-	defer conn.Close()
 
 	client := pb.NewItemServiceClient(conn)
 	return &Client{conn, client}, nil
+}
+
+func (client *Client) Close() {
+	client.conn.Close()
 }
 
 func (client *Client) GetItem(ctx context.Context, id int32) (*pb.Item, error) {
