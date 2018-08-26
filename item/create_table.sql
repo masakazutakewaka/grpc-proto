@@ -1,5 +1,5 @@
-CREATE TABLE IF NOT EXISTS items (
-  id INTEGER PRIMARY KEY,
-  name VARCHAR(24) NOT NULL
+CREATE TABLE items (
+  id serial primary key,
+  name VARCHAR(24) not null,
   price INTEGER
 );

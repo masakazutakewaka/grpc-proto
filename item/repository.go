@@ -45,7 +45,7 @@ func (r *postgresRepository) Ping() error {
 func (r *postgresRepository) GetItemByID(ctx context.Context, id int32) (*pb.Item, error) {
 	row := r.db.QueryRowContext(ctx, "SELECT id, name, price FROM items WHERE id = $1", id)
 	item := &pb.Item{}
-	if err := row.Scan(item.Id, item.Name, item.Price); err != nil {
+	if err := row.Scan(&item.Id, &item.Name, &item.Price); err != nil {
 		return nil, err
 	}
 	return item, nil
@@ -60,7 +60,7 @@ func (r *postgresRepository) ListItems(ctx context.Context, skip int32, take int
 
 	for rows.Next() {
 		item := &pb.Item{}
-		if err := rows.Scan(item.Id, item.Name, item.Price); err != nil {
+		if err := rows.Scan(&item.Id, &item.Name, &item.Price); err != nil {
 			break
 		}
 		items = append(items, item)
@@ -72,6 +72,6 @@ func (r *postgresRepository) ListItems(ctx context.Context, skip int32, take int
 }
 
 func (r *postgresRepository) InsertItem(ctx context.Context, name string, price int32) error {
-	_, err := r.db.ExecContext(ctx, "INSERT INTO items(id, name, price) VALUES($1, $2)", name, price)
+	_, err := r.db.ExecContext(ctx, "INSERT INTO items(name, price) VALUES($1, $2)", name, price)
 	return err
 }
