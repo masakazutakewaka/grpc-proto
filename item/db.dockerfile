@@ -1,6 +1,6 @@
 FROM postgres:10.3
 
-COPY create_table.sql /docker-enterpoint-initdb.d/
+COPY create_table.sql /docker-entrypoint-initdb.d/1.sql
 
 USER postgres
 
