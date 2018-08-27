@@ -49,3 +49,24 @@ services:
       POSTGRES_USER: "takewaka"
       POSTGRES_PASSWORD: "takewaka"
     restart: "unless-stopped"
+
+  coordinate:
+    build:
+      context: "."
+      dockerfile: "./coordinate/app.dockerfile"
+    depends_on:
+      - "item"
+      - "user"
+      - "coordinate_db"
+    environment:
+      DATABASE_URL: "postgres://takewaka:takewaka@coordinate_db/grpcproto?sslmode=disable"
+
+  coordinate_db:
+    build:
+      context: "./coordinate"
+      dockerfile: "./db.dockerfile"
+    environment:
+      POSTGRES_DB: "grpcproto"
+      POSTGRES_USER: "takewaka"
+      POSTGRES_PASSWORD: "takewaka"
+    restart: "unless-stopped"
