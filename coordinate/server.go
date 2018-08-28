@@ -43,14 +43,6 @@ func ListenGRPC(r Repository, itemURL string, userURL string, port int) error {
 	return server.Serve(listen)
 }
 
-func (s *coordinateServer) GetCoordinate(ctx context.Context, r *pb.GetCoordinateRequest) (*pb.GetCoordinateResponse, error) {
-	coordinate, err := s.r.GetCoordinateByID(ctx, r.Id)
-	if err != nil {
-		return nil, err
-	}
-	return &pb.GetCoordinateResponse{Coordinate: coordinate}, nil
-}
-
 func (s *coordinateServer) GetCoordinatesByUser(ctx context.Context, r *pb.GetCoordinatesByUserRequest) (*pb.GetCoordinatesByUserResponse, error) {
 	coordinates, err := s.r.GetCoordinatesByUserId(ctx, r.UserId)
 	if err != nil {
