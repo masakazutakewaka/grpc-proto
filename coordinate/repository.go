@@ -2,6 +2,7 @@ package coordinate
 
 import (
 	"database/sql"
+	"fmt"
 	"golang.org/x/net/context"
 	"strconv"
 	"strings"

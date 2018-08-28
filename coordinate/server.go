@@ -44,6 +44,11 @@ func ListenGRPC(r Repository, itemURL string, userURL string, port int) error {
 }
 
 func (s *coordinateServer) GetCoordinatesByUser(ctx context.Context, r *pb.GetCoordinatesByUserRequest) (*pb.GetCoordinatesByUserResponse, error) {
+	user, err := s.userClient.GetUser(r.UserId)
+	if err != nil {
+		return nil, err
+	}
+
 	coordinates, err := s.r.GetCoordinatesByUserId(ctx, r.UserId)
 	if err != nil {
 		return nil, err
@@ -52,6 +57,16 @@ func (s *coordinateServer) GetCoordinatesByUser(ctx context.Context, r *pb.GetCo
 }
 
 func (s *coordinateServer) PostCoordinate(ctx context.Context, r *pb.PostCoordinateRequest) (*pb.PostCoordinateResponse, error) {
+	user, err := s.userClient.GetUser(r.UserId)
+	if err != nil {
+		return nil, err
+	}
+
+	user, err := s.itemClient.GetItems(r.ItemIds)
+	if err != nil {
+		return nil, err
+	}
+
 	err := s.r.InsertCoordinate(ctx, r.UserId, r.ItemIds)
 	if err != nil {
 		return nil, err
