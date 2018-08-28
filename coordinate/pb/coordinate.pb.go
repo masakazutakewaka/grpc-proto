@@ -36,7 +36,7 @@ func (m *Coordinate) Reset()         { *m = Coordinate{} }
 func (m *Coordinate) String() string { return proto.CompactTextString(m) }
 func (*Coordinate) ProtoMessage()    {}
 func (*Coordinate) Descriptor() ([]byte, []int) {
-	return fileDescriptor_coordinate_9946b7a78021c270, []int{0}
+	return fileDescriptor_coordinate_bf7ce0dffe781db4, []int{0}
 }
 func (m *Coordinate) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_Coordinate.Unmarshal(m, b)
@@ -77,82 +77,6 @@ func (m *Coordinate) GetItemIds() []int32 {
 	return nil
 }
 
-type GetCoordinateRequest struct {
-	Id                   int32    `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
-}
-
-func (m *GetCoordinateRequest) Reset()         { *m = GetCoordinateRequest{} }
-func (m *GetCoordinateRequest) String() string { return proto.CompactTextString(m) }
-func (*GetCoordinateRequest) ProtoMessage()    {}
-func (*GetCoordinateRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_coordinate_9946b7a78021c270, []int{1}
-}
-func (m *GetCoordinateRequest) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_GetCoordinateRequest.Unmarshal(m, b)
-}
-func (m *GetCoordinateRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_GetCoordinateRequest.Marshal(b, m, deterministic)
-}
-func (dst *GetCoordinateRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_GetCoordinateRequest.Merge(dst, src)
-}
-func (m *GetCoordinateRequest) XXX_Size() int {
-	return xxx_messageInfo_GetCoordinateRequest.Size(m)
-}
-func (m *GetCoordinateRequest) XXX_DiscardUnknown() {
-	xxx_messageInfo_GetCoordinateRequest.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_GetCoordinateRequest proto.InternalMessageInfo
-
-func (m *GetCoordinateRequest) GetId() int32 {
-	if m != nil {
-		return m.Id
-	}
-	return 0
-}
-
-type GetCoordinateResponse struct {
-	Coordinate           *Coordinate `protobuf:"bytes,1,opt,name=coordinate,proto3" json:"coordinate,omitempty"`
-	XXX_NoUnkeyedLiteral struct{}    `json:"-"`
-	XXX_unrecognized     []byte      `json:"-"`
-	XXX_sizecache        int32       `json:"-"`
-}
-
-func (m *GetCoordinateResponse) Reset()         { *m = GetCoordinateResponse{} }
-func (m *GetCoordinateResponse) String() string { return proto.CompactTextString(m) }
-func (*GetCoordinateResponse) ProtoMessage()    {}
-func (*GetCoordinateResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_coordinate_9946b7a78021c270, []int{2}
-}
-func (m *GetCoordinateResponse) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_GetCoordinateResponse.Unmarshal(m, b)
-}
-func (m *GetCoordinateResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_GetCoordinateResponse.Marshal(b, m, deterministic)
-}
-func (dst *GetCoordinateResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_GetCoordinateResponse.Merge(dst, src)
-}
-func (m *GetCoordinateResponse) XXX_Size() int {
-	return xxx_messageInfo_GetCoordinateResponse.Size(m)
-}
-func (m *GetCoordinateResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_GetCoordinateResponse.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_GetCoordinateResponse proto.InternalMessageInfo
-
-func (m *GetCoordinateResponse) GetCoordinate() *Coordinate {
-	if m != nil {
-		return m.Coordinate
-	}
-	return nil
-}
-
 type GetCoordinatesByUserRequest struct {
 	UserId               int32    `protobuf:"varint,1,opt,name=userId,proto3" json:"userId,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
@@ -164,7 +88,7 @@ func (m *GetCoordinatesByUserRequest) Reset()         { *m = GetCoordinatesByUse
 func (m *GetCoordinatesByUserRequest) String() string { return proto.CompactTextString(m) }
 func (*GetCoordinatesByUserRequest) ProtoMessage()    {}
 func (*GetCoordinatesByUserRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_coordinate_9946b7a78021c270, []int{3}
+	return fileDescriptor_coordinate_bf7ce0dffe781db4, []int{1}
 }
 func (m *GetCoordinatesByUserRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_GetCoordinatesByUserRequest.Unmarshal(m, b)
@@ -202,7 +126,7 @@ func (m *GetCoordinatesByUserResponse) Reset()         { *m = GetCoordinatesByUs
 func (m *GetCoordinatesByUserResponse) String() string { return proto.CompactTextString(m) }
 func (*GetCoordinatesByUserResponse) ProtoMessage()    {}
 func (*GetCoordinatesByUserResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_coordinate_9946b7a78021c270, []int{4}
+	return fileDescriptor_coordinate_bf7ce0dffe781db4, []int{2}
 }
 func (m *GetCoordinatesByUserResponse) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_GetCoordinatesByUserResponse.Unmarshal(m, b)
@@ -241,7 +165,7 @@ func (m *PostCoordinateRequest) Reset()         { *m = PostCoordinateRequest{} }
 func (m *PostCoordinateRequest) String() string { return proto.CompactTextString(m) }
 func (*PostCoordinateRequest) ProtoMessage()    {}
 func (*PostCoordinateRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_coordinate_9946b7a78021c270, []int{5}
+	return fileDescriptor_coordinate_bf7ce0dffe781db4, []int{3}
 }
 func (m *PostCoordinateRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_PostCoordinateRequest.Unmarshal(m, b)
@@ -285,7 +209,7 @@ func (m *PostCoordinateResponse) Reset()         { *m = PostCoordinateResponse{}
 func (m *PostCoordinateResponse) String() string { return proto.CompactTextString(m) }
 func (*PostCoordinateResponse) ProtoMessage()    {}
 func (*PostCoordinateResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_coordinate_9946b7a78021c270, []int{6}
+	return fileDescriptor_coordinate_bf7ce0dffe781db4, []int{4}
 }
 func (m *PostCoordinateResponse) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_PostCoordinateResponse.Unmarshal(m, b)
@@ -307,8 +231,6 @@ var xxx_messageInfo_PostCoordinateResponse proto.InternalMessageInfo
 
 func init() {
 	proto.RegisterType((*Coordinate)(nil), "pb.Coordinate")
-	proto.RegisterType((*GetCoordinateRequest)(nil), "pb.getCoordinateRequest")
-	proto.RegisterType((*GetCoordinateResponse)(nil), "pb.getCoordinateResponse")
 	proto.RegisterType((*GetCoordinatesByUserRequest)(nil), "pb.getCoordinatesByUserRequest")
 	proto.RegisterType((*GetCoordinatesByUserResponse)(nil), "pb.getCoordinatesByUserResponse")
 	proto.RegisterType((*PostCoordinateRequest)(nil), "pb.postCoordinateRequest")
@@ -327,7 +249,6 @@ const _ = grpc.SupportPackageIsVersion4
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type CoordinateServiceClient interface {
-	GetCoordinate(ctx context.Context, in *GetCoordinateRequest, opts ...grpc.CallOption) (*GetCoordinateResponse, error)
 	GetCoordinatesByUser(ctx context.Context, in *GetCoordinatesByUserRequest, opts ...grpc.CallOption) (*GetCoordinatesByUserResponse, error)
 	PostCoordinate(ctx context.Context, in *PostCoordinateRequest, opts ...grpc.CallOption) (*PostCoordinateResponse, error)
 }
@@ -338,15 +259,6 @@ type coordinateServiceClient struct {
 
 func NewCoordinateServiceClient(cc *grpc.ClientConn) CoordinateServiceClient {
 	return &coordinateServiceClient{cc}
-}
-
-func (c *coordinateServiceClient) GetCoordinate(ctx context.Context, in *GetCoordinateRequest, opts ...grpc.CallOption) (*GetCoordinateResponse, error) {
-	out := new(GetCoordinateResponse)
-	err := c.cc.Invoke(ctx, "/pb.CoordinateService/getCoordinate", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
 }
 
 func (c *coordinateServiceClient) GetCoordinatesByUser(ctx context.Context, in *GetCoordinatesByUserRequest, opts ...grpc.CallOption) (*GetCoordinatesByUserResponse, error) {
@@ -369,31 +281,12 @@ func (c *coordinateServiceClient) PostCoordinate(ctx context.Context, in *PostCo
 
 // CoordinateServiceServer is the server API for CoordinateService service.
 type CoordinateServiceServer interface {
-	GetCoordinate(context.Context, *GetCoordinateRequest) (*GetCoordinateResponse, error)
 	GetCoordinatesByUser(context.Context, *GetCoordinatesByUserRequest) (*GetCoordinatesByUserResponse, error)
 	PostCoordinate(context.Context, *PostCoordinateRequest) (*PostCoordinateResponse, error)
 }
 
 func RegisterCoordinateServiceServer(s *grpc.Server, srv CoordinateServiceServer) {
 	s.RegisterService(&_CoordinateService_serviceDesc, srv)
-}
-
-func _CoordinateService_GetCoordinate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetCoordinateRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(CoordinateServiceServer).GetCoordinate(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/pb.CoordinateService/GetCoordinate",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CoordinateServiceServer).GetCoordinate(ctx, req.(*GetCoordinateRequest))
-	}
-	return interceptor(ctx, in, info, handler)
 }
 
 func _CoordinateService_GetCoordinatesByUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -437,10 +330,6 @@ var _CoordinateService_serviceDesc = grpc.ServiceDesc{
 	HandlerType: (*CoordinateServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "getCoordinate",
-			Handler:    _CoordinateService_GetCoordinate_Handler,
-		},
-		{
 			MethodName: "getCoordinatesByUser",
 			Handler:    _CoordinateService_GetCoordinatesByUser_Handler,
 		},
@@ -453,27 +342,24 @@ var _CoordinateService_serviceDesc = grpc.ServiceDesc{
 	Metadata: "coordinate.proto",
 }
 
-func init() { proto.RegisterFile("coordinate.proto", fileDescriptor_coordinate_9946b7a78021c270) }
+func init() { proto.RegisterFile("coordinate.proto", fileDescriptor_coordinate_bf7ce0dffe781db4) }
 
-var fileDescriptor_coordinate_9946b7a78021c270 = []byte{
-	// 293 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x74, 0x52, 0xc1, 0x4a, 0xc3, 0x40,
-	0x10, 0x35, 0x1b, 0x5a, 0x61, 0x8a, 0x41, 0x07, 0x5b, 0xd6, 0x28, 0x18, 0xf6, 0x20, 0x3d, 0x05,
-	0xa9, 0xf8, 0x03, 0x0a, 0x4a, 0x2e, 0x22, 0x11, 0x4f, 0x9e, 0x4c, 0x33, 0x48, 0x0e, 0x76, 0x63,
-	0x76, 0x2b, 0x78, 0xf6, 0xc7, 0xc5, 0x34, 0xe9, 0xee, 0xa6, 0xdb, 0xe3, 0xce, 0xbc, 0x79, 0xf3,
-	0xde, 0x9b, 0x85, 0xe3, 0xa5, 0x94, 0x4d, 0x59, 0xad, 0xde, 0x35, 0xa5, 0x75, 0x23, 0xb5, 0x44,
-	0x56, 0x17, 0xe2, 0x09, 0xe0, 0x7e, 0x5b, 0xc7, 0x08, 0x58, 0x55, 0xf2, 0x20, 0x09, 0xe6, 0xa3,
-	0x9c, 0x55, 0x25, 0xce, 0x60, 0xbc, 0x56, 0xd4, 0x64, 0x25, 0x67, 0x6d, 0xad, 0x7b, 0x21, 0x87,
-	0xc3, 0x4a, 0xd3, 0x67, 0x56, 0x2a, 0x1e, 0x26, 0xe1, 0x7c, 0x94, 0xf7, 0x4f, 0x71, 0x05, 0xa7,
-	0x1f, 0xa4, 0x0d, 0x65, 0x4e, 0x5f, 0x6b, 0x52, 0x7a, 0xc8, 0x2c, 0x1e, 0x61, 0x3a, 0xc0, 0xa9,
-	0x5a, 0xae, 0x14, 0x61, 0x0a, 0x60, 0x84, 0xb6, 0x03, 0x93, 0x45, 0x94, 0xd6, 0x45, 0x6a, 0x61,
-	0x2d, 0x84, 0xb8, 0x85, 0x73, 0x87, 0x48, 0xdd, 0xfd, 0xbc, 0x2a, 0x6a, 0xfa, 0xbd, 0xc6, 0x41,
-	0x60, 0x3b, 0x10, 0xcf, 0x70, 0xe1, 0x1f, 0xeb, 0x64, 0x5c, 0xc3, 0xc4, 0x2c, 0x51, 0x3c, 0x48,
-	0x42, 0x8f, 0x0e, 0x1b, 0x22, 0x32, 0x98, 0xd6, 0x52, 0x79, 0xac, 0xef, 0x91, 0x60, 0x87, 0xc8,
-	0xdc, 0x10, 0x39, 0xcc, 0x86, 0x54, 0x1b, 0x59, 0x8b, 0x5f, 0x06, 0x27, 0xa6, 0xfc, 0x42, 0xcd,
-	0x77, 0xb5, 0x24, 0x7c, 0x80, 0x23, 0xc7, 0x0c, 0xf2, 0x7f, 0xa1, 0xbe, 0x3b, 0xc4, 0x67, 0x9e,
-	0xce, 0x86, 0x5b, 0x1c, 0xe0, 0xdb, 0xe0, 0x78, 0x5d, 0x28, 0x78, 0xb9, 0x33, 0xe4, 0xa6, 0x1c,
-	0x27, 0xfb, 0x01, 0x5b, 0xf2, 0x0c, 0x22, 0xd7, 0x14, 0xb6, 0x5a, 0xbc, 0x99, 0xc5, 0xb1, 0xaf,
-	0xd5, 0x53, 0x15, 0xe3, 0xf6, 0xff, 0xde, 0xfc, 0x05, 0x00, 0x00, 0xff, 0xff, 0x4a, 0x3b, 0xfd,
-	0x01, 0xd3, 0x02, 0x00, 0x00,
+var fileDescriptor_coordinate_bf7ce0dffe781db4 = []byte{
+	// 253 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x84, 0x92, 0x41, 0x4b, 0x03, 0x31,
+	0x10, 0x85, 0x4d, 0x96, 0x56, 0x98, 0xc2, 0xa2, 0x83, 0x96, 0xb8, 0x0a, 0x2e, 0x39, 0xed, 0x69,
+	0x91, 0x8a, 0x7f, 0x40, 0x4f, 0x7b, 0x11, 0x59, 0xf1, 0xe4, 0xc9, 0x6d, 0x06, 0xc9, 0xc1, 0x26,
+	0x66, 0x52, 0xc1, 0xdf, 0xe6, 0x9f, 0x93, 0xb6, 0xd6, 0x4d, 0x65, 0xd5, 0xe3, 0xbc, 0xcc, 0xfb,
+	0xf2, 0x5e, 0x08, 0x1c, 0xcc, 0x9d, 0x0b, 0xc6, 0x2e, 0x9e, 0x22, 0xd5, 0x3e, 0xb8, 0xe8, 0x50,
+	0xfa, 0x4e, 0xdf, 0x02, 0xdc, 0x7c, 0xeb, 0x98, 0x83, 0xb4, 0x46, 0x89, 0x52, 0x54, 0xa3, 0x56,
+	0x5a, 0x83, 0x53, 0x18, 0x2f, 0x99, 0x42, 0x63, 0x94, 0x5c, 0x6b, 0x5f, 0x13, 0x2a, 0xd8, 0xb7,
+	0x91, 0x5e, 0x1a, 0xc3, 0x2a, 0x2b, 0xb3, 0x6a, 0xd4, 0x6e, 0x47, 0x7d, 0x05, 0xa7, 0xcf, 0x14,
+	0x7b, 0x24, 0x5f, 0xbf, 0x3f, 0x30, 0x85, 0x96, 0x5e, 0x97, 0xc4, 0x31, 0x01, 0x8a, 0x14, 0xa8,
+	0xef, 0xe0, 0x6c, 0xd8, 0xc6, 0xde, 0x2d, 0x98, 0xf0, 0x02, 0x26, 0x7d, 0x7c, 0x56, 0xa2, 0xcc,
+	0xaa, 0xc9, 0x2c, 0xaf, 0x7d, 0x57, 0xf7, 0x9e, 0x36, 0x5d, 0xd1, 0x0d, 0x1c, 0x7b, 0xc7, 0x09,
+	0xf2, 0x9f, 0x08, 0x69, 0x27, 0xb9, 0xdb, 0x49, 0xc1, 0xf4, 0x27, 0x6a, 0x13, 0x6b, 0xf6, 0x21,
+	0xe0, 0xb0, 0x97, 0xef, 0x29, 0xbc, 0xd9, 0x39, 0xe1, 0x23, 0x1c, 0x0d, 0x95, 0xc1, 0xf3, 0x55,
+	0xde, 0x3f, 0x5e, 0xa7, 0x28, 0x7f, 0x5f, 0xd8, 0x5c, 0xa8, 0xf7, 0xb0, 0x81, 0x7c, 0x37, 0x0c,
+	0x9e, 0xac, 0x5c, 0x83, 0x5d, 0x8b, 0x62, 0xe8, 0x68, 0x8b, 0xea, 0xc6, 0xeb, 0x6f, 0x70, 0xf9,
+	0x19, 0x00, 0x00, 0xff, 0xff, 0x86, 0x75, 0x26, 0x1f, 0x1a, 0x02, 0x00, 0x00,
 }
