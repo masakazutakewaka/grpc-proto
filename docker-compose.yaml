@@ -55,11 +55,13 @@ services:
       context: "."
       dockerfile: "./coordinate/app.dockerfile"
     depends_on:
+      - "coordinate_db"
       - "item"
       - "user"
-      - "coordinate_db"
     environment:
       DATABASE_URL: "postgres://takewaka:takewaka@coordinate_db/grpcproto?sslmode=disable"
+      ITEM_URL: "item:8080"
+      USER_URL: "user:8080"
 
   coordinate_db:
     build:
