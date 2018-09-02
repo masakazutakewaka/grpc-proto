@@ -59,7 +59,10 @@ func (r *postgresRepository) GetCoordinatesByUserId(ctx context.Context, user_id
 			break
 		}
 		coordinate.UserId = user_id
-		coordinate.ItemIds = SliceItemIds(item_ids)
+		coordinate.ItemIds, err = SliceItemIds(item_ids)
+		if err != nil {
+			return nil, err
+		}
 		coordinates = append(coordinates, coordinate)
 	}
 	if err := rows.Err(); err != nil {
@@ -73,13 +76,17 @@ func (r *postgresRepository) InsertCoordinate(ctx context.Context, user_id int32
 	return err
 }
 
-func SliceItemIds(item_ids string) []int32 {
-	sliced_item_ids := []int32{}
-	splited := strings.Split(item_ids, ',')
+func SliceItemIds(item_ids string) ([]int32, error) {
+	sliced := []int32{}
+	splited := strings.Split(item_ids, ",")
 	for _, item_id := range splited {
-		sliced_item_ids = append(sliced_item_ids, strconv.Atoi(item_id))
+		strId, err := strconv.Atoi(item_id)
+		if err != nil {
+			return nil, err
+		}
+		sliced = append(sliced, int32(strId))
 	}
-	return sliced_item_ids
+	return sliced, nil
 }
 
 func BundleItemIds(item_ids []int32) string {

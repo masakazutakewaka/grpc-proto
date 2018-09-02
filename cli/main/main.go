@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 
+	"github.com/masakazutakewaka/grpc-proto/coordinate"
 	"github.com/masakazutakewaka/grpc-proto/item"
 	"github.com/masakazutakewaka/grpc-proto/user"
 )
@@ -12,6 +13,7 @@ import (
 func main() {
 	itemURL := os.Getenv("ITEM_URL")
 	userURL := os.Getenv("USER_URL")
+	coordinateURL := os.Getenv("COORDINATE_URL")
 
 	userClient, err := user.NewClient(userURL)
 	if err != nil {
@@ -51,4 +53,21 @@ func main() {
 		log.Fatal(err)
 	}
 	log.Println(items)
+
+	coordinateClient, err := coordinate.NewClient(coordinateURL)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer coordinateClient.Close()
+
+	err = coordinateClient.PostCoordinate(context.Background(), 1, []int32{1, 2})
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	coordinate, err := coordinateClient.GetCoordinatesByUser(context.Background(), 1)
+	if err != nil {
+		log.Fatal(err)
+	}
+	log.Println(coordinate)
 }

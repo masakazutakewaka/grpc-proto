@@ -3,6 +3,7 @@ WORKDIR /go/src/github.com/masakazutakewaka/grpc-proto/cli
 COPY vendor ../vendor
 COPY item ../item
 COPY user ../user
+COPY coordinate ../coordinate
 COPY cli ./
 RUN go build -o /go/bin/app main/main.go
 

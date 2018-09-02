@@ -27,7 +27,7 @@ func (client *Client) Close() {
 }
 
 func (client *Client) GetCoordinatesByUser(ctx context.Context, user_id int32) ([]*pb.Coordinate, error) {
-	res, err := client.service.GetCoordinates(ctx, &pb.GetCoordinatesRequest{UserId: user_id})
+	res, err := client.service.GetCoordinatesByUser(ctx, &pb.GetCoordinatesByUserRequest{UserId: user_id})
 	if err != nil {
 		return nil, err
 	}
