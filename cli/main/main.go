@@ -41,9 +41,14 @@ func main() {
 		log.Fatal(err)
 	}
 
-	item, err := itemClient.GetItem(context.Background(), 1)
+	_, err = itemClient.PostItem(context.Background(), "shoes", 2255)
 	if err != nil {
 		log.Fatal(err)
 	}
-	log.Println(item)
+
+	items, err := itemClient.GetItems(context.Background(), []int32{1, 2})
+	if err != nil {
+		log.Fatal(err)
+	}
+	log.Println(items)
 }

@@ -35,7 +35,7 @@ func (s *itemServer) GetItem(ctx context.Context, r *pb.GetItemRequest) (*pb.Get
 }
 
 func (s *itemServer) GetItems(ctx context.Context, r *pb.GetItemsRequest) (*pb.GetItemsResponse, error) {
-	items, err := s.r.ListItems(ctx, r.Skip, r.Take)
+	items, err := s.r.GetItemsByIds(ctx, r.Ids)
 	if err != nil {
 		return nil, err
 	}
