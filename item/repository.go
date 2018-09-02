@@ -2,9 +2,12 @@ package item
 
 import (
 	"database/sql"
+	"fmt"
 	"golang.org/x/net/context"
+	"strings"
 
-	_ "github.com/lib/pq"
+	"github.com/lib/pq"
+	//_ "github.com/lib/pq"
 
 	"github.com/masakazutakewaka/grpc-proto/item/pb"
 )
@@ -12,7 +15,7 @@ import (
 type Repository interface {
 	Close()
 	GetItemByID(ctx context.Context, id int32) (*pb.Item, error)
-	ListItems(ctx context.Context, skip int32, take int32) ([]*pb.Item, error)
+	GetItemsByIds(ctx context.Context, ids []int32) ([]*pb.Item, error)
 	InsertItem(ctx context.Context, name string, price int32) error
 }
 
@@ -51,8 +54,8 @@ func (r *postgresRepository) GetItemByID(ctx context.Context, id int32) (*pb.Ite
 	return item, nil
 }
 
-func (r *postgresRepository) ListItems(ctx context.Context, skip int32, take int32) ([]*pb.Item, error) {
-	rows, err := r.db.QueryContext(ctx, "SELECT id, name, price FROM items OFFSET $1 LIMIT $2", skip, take)
+func (r *postgresRepository) GetItemsByIds(ctx context.Context, ids []int32) ([]*pb.Item, error) {
+	rows, err := r.db.QueryContext(ctx, `SELECT id, name, price FROM items WHERE id = ANY ($1)`, pq.Array(ids))
 	items := []*pb.Item{}
 	if err != nil {
 		return nil, err
