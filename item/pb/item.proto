@@ -23,8 +23,7 @@ message getItemResponse {
 }
 
 message getItemsRequest {
-  int32 skip = 1;
-  int32 take = 2;
+  repeated int32 ids = 1;
 }
 
 message getItemsResponse {

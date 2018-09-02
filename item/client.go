@@ -38,8 +38,8 @@ func (client *Client) GetItem(ctx context.Context, id int32) (*pb.Item, error) {
 	}, nil
 }
 
-func (client *Client) GetItems(ctx context.Context, skip int32, take int32) ([]*pb.Item, error) {
-	res, err := client.service.GetItems(ctx, &pb.GetItemsRequest{Skip: skip, Take: take})
+func (client *Client) GetItems(ctx context.Context, ids []int32) ([]*pb.Item, error) {
+	res, err := client.service.GetItems(ctx, &pb.GetItemsRequest{Ids: ids})
 	if err != nil {
 		return nil, err
 	}
