@@ -20,17 +20,6 @@ services:
       POSTGRES_PASSWORD: "takewaka"
     restart: "unless-stopped"
 
-  item_client:
-    build:
-      context: "."
-      dockerfile: "./cli/cli.dockerfile"
-    depends_on:
-      - "item"
-      - "user"
-    environment:
-      ITEM_URL: "item:8080"
-      USER_URL: "user:8080"
-
   user:
     build:
       context: "."
@@ -49,3 +38,39 @@ services:
       POSTGRES_USER: "takewaka"
       POSTGRES_PASSWORD: "takewaka"
     restart: "unless-stopped"
+
+  coordinate:
+    build:
+      context: "."
+      dockerfile: "./coordinate/app.dockerfile"
+    depends_on:
+      - "coordinate_db"
+      - "item"
+      - "user"
+    environment:
+      DATABASE_URL: "postgres://takewaka:takewaka@coordinate_db/grpcproto?sslmode=disable"
+      ITEM_URL: "item:8080"
+      USER_URL: "user:8080"
+
+  coordinate_db:
+    build:
+      context: "./coordinate"
+      dockerfile: "./db.dockerfile"
+    environment:
+      POSTGRES_DB: "grpcproto"
+      POSTGRES_USER: "takewaka"
+      POSTGRES_PASSWORD: "takewaka"
+    restart: "unless-stopped"
+
+  client:
+    build:
+      context: "."
+      dockerfile: "./cli/cli.dockerfile"
+    depends_on:
+      - "item"
+      - "user"
+      - "coordinate"
+    environment:
+      ITEM_URL: "item:8080"
+      USER_URL: "user:8080"
+      COORDINATE_URL: "coordinate:8080"

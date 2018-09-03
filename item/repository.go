@@ -2,12 +2,9 @@ package item
 
 import (
 	"database/sql"
-	"fmt"
 	"golang.org/x/net/context"
-	"strings"
 
 	"github.com/lib/pq"
-	//_ "github.com/lib/pq"
 
 	"github.com/masakazutakewaka/grpc-proto/item/pb"
 )

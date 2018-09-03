@@ -1,10 +1,9 @@
 FROM golang:1.10.3-alpine3.8 AS builder
-WORKDIR /go/src/github.com/masakazutakewaka/grpc-proto/cli
+WORKDIR /go/src/github.com/masakazutakewaka/grpc-proto/coordinate
 COPY vendor ../vendor
 COPY item ../item
 COPY user ../user
-COPY coordinate ../coordinate
-COPY cli ./
+COPY coordinate ./
 RUN go build -o /go/bin/app main/main.go
 
 FROM alpine:3.8
