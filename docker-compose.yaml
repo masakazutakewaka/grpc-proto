@@ -69,6 +69,7 @@ services:
     depends_on:
       - "item"
       - "user"
+      - "coordinate"
     environment:
       ITEM_URL: "item:8080"
       USER_URL: "user:8080"
