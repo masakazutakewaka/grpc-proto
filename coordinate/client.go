@@ -26,15 +26,15 @@ func (client *Client) Close() {
 	client.conn.Close()
 }
 
-func (client *Client) GetCoordinatesByUser(ctx context.Context, user_id int32) ([]*pb.Coordinate, error) {
-	res, err := client.service.GetCoordinatesByUser(ctx, &pb.GetCoordinatesByUserRequest{UserId: user_id})
+func (client *Client) GetCoordinatesByUser(ctx context.Context, userId int32) ([]*pb.Coordinate, error) {
+	res, err := client.service.GetCoordinatesByUser(ctx, &pb.GetCoordinatesByUserRequest{UserId: userId})
 	if err != nil {
 		return nil, err
 	}
 	return res.Coordinates, nil
 }
 
-func (client *Client) PostCoordinate(ctx context.Context, user_id int32, item_ids []int32) error {
-	_, err := client.service.PostCoordinate(ctx, &pb.PostCoordinateRequest{UserId: user_id, ItemIds: item_ids})
+func (client *Client) PostCoordinate(ctx context.Context, userId int32, itemIds []int32) error {
+	_, err := client.service.PostCoordinate(ctx, &pb.PostCoordinateRequest{UserId: userId, ItemIds: itemIds})
 	return err
 }

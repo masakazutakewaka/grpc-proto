@@ -13,8 +13,8 @@ import (
 
 type Repository interface {
 	Close()
-	GetCoordinatesByUserId(ctx context.Context, user_id int32) ([]*pb.Coordinate, error)
-	InsertCoordinate(ctx context.Context, user_id int32, item_ids []int32) error
+	GetCoordinatesByUserId(ctx context.Context, userId int32) ([]*pb.Coordinate, error)
+	InsertCoordinate(ctx context.Context, userId int32, itemIds []int32) error
 }
 
 type postgresRepository struct {
@@ -43,22 +43,22 @@ func (r *postgresRepository) Ping() error {
 	return r.db.Ping()
 }
 
-func (r *postgresRepository) GetCoordinatesByUserId(ctx context.Context, user_id int32) ([]*pb.Coordinate, error) {
-	rows, err := r.db.QueryContext(ctx, "SELECT id, item_ids FROM coordinates WHERE user_id = $1", user_id)
+func (r *postgresRepository) GetCoordinatesByUserId(ctx context.Context, userId int32) ([]*pb.Coordinate, error) {
+	rows, err := r.db.QueryContext(ctx, "SELECT id, item_ids FROM coordinates WHERE user_id = $1", userId)
 	coordinates := []*pb.Coordinate{}
 	if err != nil {
 		return nil, err
 	}
 
-	var item_ids string
+	var itemIds string
 
 	for rows.Next() {
 		coordinate := &pb.Coordinate{}
-		if err := rows.Scan(&coordinate.Id, &item_ids); err != nil {
+		if err := rows.Scan(&coordinate.Id, &itemIds); err != nil {
 			return nil, err
 		}
-		coordinate.UserId = user_id
-		coordinate.ItemIds, err = SliceItemIds(item_ids)
+		coordinate.UserId = userId
+		coordinate.ItemIds, err = SliceItemIds(itemIds)
 		if err != nil {
 			return nil, err
 		}
@@ -70,16 +70,16 @@ func (r *postgresRepository) GetCoordinatesByUserId(ctx context.Context, user_id
 	return coordinates, nil
 }
 
-func (r *postgresRepository) InsertCoordinate(ctx context.Context, user_id int32, item_ids []int32) error {
-	_, err := r.db.ExecContext(ctx, "INSERT INTO coordinates(user_id, item_ids) VALUES($1, $2)", user_id, BundleItemIds(item_ids))
+func (r *postgresRepository) InsertCoordinate(ctx context.Context, userId int32, itemIds []int32) error {
+	_, err := r.db.ExecContext(ctx, "INSERT INTO coordinates(user_id, item_ids) VALUES($1, $2)", userId, BundleItemIds(itemIds))
 	return err
 }
 
-func SliceItemIds(item_ids string) ([]int32, error) {
+func SliceItemIds(itemIds string) ([]int32, error) {
 	sliced := []int32{}
-	splited := strings.Split(item_ids, ", ")
-	for _, item_id := range splited {
-		strId, err := strconv.Atoi(item_id)
+	splited := strings.Split(itemIds, ", ")
+	for _, itemId := range splited {
+		strId, err := strconv.Atoi(itemId)
 		if err != nil {
 			return nil, err
 		}
@@ -88,10 +88,10 @@ func SliceItemIds(item_ids string) ([]int32, error) {
 	return sliced, nil
 }
 
-func BundleItemIds(item_ids []int32) string {
+func BundleItemIds(itemIds []int32) string {
 	bundled := []string{}
-	for _, item_id := range item_ids {
-		bundled = append(bundled, strconv.Itoa(int(item_id)))
+	for _, itemId := range itemIds {
+		bundled = append(bundled, strconv.Itoa(int(itemId)))
 	}
 	return strings.Join(bundled, ", ")
 }
