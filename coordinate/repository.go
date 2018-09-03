@@ -2,7 +2,6 @@ package coordinate
 
 import (
 	"database/sql"
-	"fmt"
 	"golang.org/x/net/context"
 	"strconv"
 	"strings"
@@ -45,7 +44,7 @@ func (r *postgresRepository) Ping() error {
 }
 
 func (r *postgresRepository) GetCoordinatesByUserId(ctx context.Context, user_id int32) ([]*pb.Coordinate, error) {
-	rows, err := r.db.QueryContext(ctx, "SELECT id, item_ids  FROM coordinates WHERE user_id == $1", user_id)
+	rows, err := r.db.QueryContext(ctx, "SELECT id, item_ids FROM coordinates WHERE user_id = $1", user_id)
 	coordinates := []*pb.Coordinate{}
 	if err != nil {
 		return nil, err
@@ -56,7 +55,7 @@ func (r *postgresRepository) GetCoordinatesByUserId(ctx context.Context, user_id
 	for rows.Next() {
 		coordinate := &pb.Coordinate{}
 		if err := rows.Scan(&coordinate.Id, &item_ids); err != nil {
-			break
+			return nil, err
 		}
 		coordinate.UserId = user_id
 		coordinate.ItemIds, err = SliceItemIds(item_ids)
@@ -78,7 +77,7 @@ func (r *postgresRepository) InsertCoordinate(ctx context.Context, user_id int32
 
 func SliceItemIds(item_ids string) ([]int32, error) {
 	sliced := []int32{}
-	splited := strings.Split(item_ids, ",")
+	splited := strings.Split(item_ids, ", ")
 	for _, item_id := range splited {
 		strId, err := strconv.Atoi(item_id)
 		if err != nil {
@@ -92,7 +91,7 @@ func SliceItemIds(item_ids string) ([]int32, error) {
 func BundleItemIds(item_ids []int32) string {
 	bundled := []string{}
 	for _, item_id := range item_ids {
-		bundled = append(bundled, fmt.Sprintf("%s", item_id))
+		bundled = append(bundled, strconv.Itoa(int(item_id)))
 	}
-	return strings.Join(bundled, "")
+	return strings.Join(bundled, ", ")
 }
