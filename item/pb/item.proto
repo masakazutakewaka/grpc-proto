@@ -2,8 +2,14 @@ syntax = "proto3";
 
 package pb;
 
+import "google/api/annotations.proto";
+
 service ItemService {
-  rpc getItem (getItemRequest) returns (getItemResponse) {}
+  rpc getItem (getItemRequest) returns (getItemResponse) {
+    option (google.api.http) = {
+      get: "/item/{id}"
+    };
+  }
   rpc getItems (getItemsRequest) returns (getItemsResponse) {}
   rpc postItem (postItemRequest) returns (postItemResponse) {}
 }
