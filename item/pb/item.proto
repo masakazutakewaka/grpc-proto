@@ -11,7 +11,12 @@ service ItemService {
     };
   }
   rpc getItems (getItemsRequest) returns (getItemsResponse) {}
-  rpc postItem (postItemRequest) returns (postItemResponse) {}
+  rpc postItem (postItemRequest) returns (postItemResponse) {
+    option (google.api.http) = {
+      post: "/item"
+      body: "*"
+    };
+  }
 }
 
 message Item {
