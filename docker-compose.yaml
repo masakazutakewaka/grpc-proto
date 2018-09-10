@@ -66,6 +66,8 @@ services:
     build:
       context: "."
       dockerfile: "./cli/cli.dockerfile"
+    ports:
+      - "8000:8080"
     depends_on:
       - "item"
       - "user"

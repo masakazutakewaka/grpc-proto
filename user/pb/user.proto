@@ -2,10 +2,21 @@ syntax = "proto3";
 
 package pb;
 
+import "google/api/annotations.proto";
+
 service UserService {
-  rpc getUser (getUserRequest) returns (getUserResponse) {}
+  rpc getUser (getUserRequest) returns (getUserResponse) {
+    option (google.api.http) = {
+      get: "/user/{id}"
+    };
+  }
   rpc getUsers (getUsersRequest) returns (getUsersResponse) {}
-  rpc postUser (postUserRequest) returns (postUserResponse) {}
+  rpc postUser (postUserRequest) returns (postUserResponse) {
+    option (google.api.http) = {
+      post: "/user"
+      body: "*"
+    };
+  }
 }
 
 message User {

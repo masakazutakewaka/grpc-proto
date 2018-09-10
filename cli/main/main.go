@@ -2,72 +2,51 @@ package main
 
 import (
 	"golang.org/x/net/context"
-	"log"
+	//"log"
+	"net/http"
 	"os"
 
-	"github.com/masakazutakewaka/grpc-proto/coordinate"
-	"github.com/masakazutakewaka/grpc-proto/item"
-	"github.com/masakazutakewaka/grpc-proto/user"
+	"github.com/golang/glog"
+	"github.com/grpc-ecosystem/grpc-gateway/runtime"
+	"google.golang.org/grpc"
+
+	coordinatePb "github.com/masakazutakewaka/grpc-proto/coordinate/pb"
+	itemPb "github.com/masakazutakewaka/grpc-proto/item/pb"
+	userPb "github.com/masakazutakewaka/grpc-proto/user/pb"
 )
+
+func run(itemURL string, userURL string, coordinateURL string) error {
+	ctx := context.Background()
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
+	mux := runtime.NewServeMux()
+	opts := []grpc.DialOption{grpc.WithInsecure()}
+
+	err := itemPb.RegisterItemServiceHandlerFromEndpoint(ctx, mux, itemURL, opts)
+	if err != nil {
+		return err
+	}
+	err = userPb.RegisterUserServiceHandlerFromEndpoint(ctx, mux, userURL, opts)
+	if err != nil {
+		return err
+	}
+	err = coordinatePb.RegisterCoordinateServiceHandlerFromEndpoint(ctx, mux, coordinateURL, opts)
+	if err != nil {
+		return err
+	}
+
+	return http.ListenAndServe(":8080", mux)
+}
 
 func main() {
 	itemURL := os.Getenv("ITEM_URL")
 	userURL := os.Getenv("USER_URL")
 	coordinateURL := os.Getenv("COORDINATE_URL")
 
-	userClient, err := user.NewClient(userURL)
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer userClient.Close()
+	defer glog.Flush()
 
-	err = userClient.PostUser(context.Background(), "takewaka")
-	if err != nil {
-		log.Fatal(err)
+	if err := run(itemURL, userURL, coordinateURL); err != nil {
+		glog.Fatal(err)
 	}
-
-	user, err := userClient.GetUser(context.Background(), 1)
-	if err != nil {
-		log.Fatal(err)
-	}
-	log.Println(user)
-
-	itemClient, err := item.NewClient(itemURL)
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer itemClient.Close()
-
-	_, err = itemClient.PostItem(context.Background(), "hat", 1555)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	_, err = itemClient.PostItem(context.Background(), "shoes", 2255)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	items, err := itemClient.GetItems(context.Background(), []int32{1, 2})
-	if err != nil {
-		log.Fatal(err)
-	}
-	log.Println(items)
-
-	coordinateClient, err := coordinate.NewClient(coordinateURL)
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer coordinateClient.Close()
-
-	err = coordinateClient.PostCoordinate(context.Background(), 1, []int32{1, 2})
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	coordinate, err := coordinateClient.GetCoordinatesByUser(context.Background(), 1)
-	if err != nil {
-		log.Fatal(err)
-	}
-	log.Println(coordinate)
 }
