@@ -2,9 +2,20 @@ syntax = "proto3";
 
 package pb;
 
+import "google/api/annotations.proto";
+
 service CoordinateService {
-  rpc getCoordinatesByUser (getCoordinatesByUserRequest) returns (getCoordinatesByUserResponse) {}
-  rpc postCoordinate (postCoordinateRequest) returns (postCoordinateResponse) {}
+  rpc getCoordinatesByUser (getCoordinatesByUserRequest) returns (getCoordinatesByUserResponse) {
+    option (google.api.http) = {
+      get: "/user/{userId}/coordinates"
+    };
+  }
+  rpc postCoordinate (postCoordinateRequest) returns (postCoordinateResponse) {
+    option (google.api.http) = {
+      post: "/coordinate"
+      body: "*"
+    };
+  }
 }
 
 message Coordinate {
