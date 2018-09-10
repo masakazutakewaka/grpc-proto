@@ -2,7 +2,7 @@ package main
 
 import (
 	"golang.org/x/net/context"
-	"log"
+	//"log"
 	"net/http"
 	"os"
 
@@ -11,19 +11,23 @@ import (
 	"google.golang.org/grpc"
 
 	//"github.com/masakazutakewaka/grpc-proto/coordinate"
-	"github.com/masakazutakewaka/grpc-proto/item"
-	pb "github.com/masakazutakewaka/grpc-proto/item/pb"
-	//"github.com/masakazutakewaka/grpc-proto/user"
+	itemPb "github.com/masakazutakewaka/grpc-proto/item/pb"
+	userPb "github.com/masakazutakewaka/grpc-proto/user/pb"
 )
 
-func run(url string) error {
+func run(itemUrl string, userUrl string) error {
 	ctx := context.Background()
 	ctx, cancel := context.WithCancel(ctx)
 	defer cancel()
 
 	mux := runtime.NewServeMux()
 	opts := []grpc.DialOption{grpc.WithInsecure()}
-	err := pb.RegisterItemServiceHandlerFromEndpoint(ctx, mux, url, opts)
+
+	err := itemPb.RegisterItemServiceHandlerFromEndpoint(ctx, mux, itemUrl, opts)
+	if err != nil {
+		return err
+	}
+	err = userPb.RegisterUserServiceHandlerFromEndpoint(ctx, mux, userUrl, opts)
 	if err != nil {
 		return err
 	}
@@ -33,7 +37,17 @@ func run(url string) error {
 
 func main() {
 	itemURL := os.Getenv("ITEM_URL")
-	//userURL := os.Getenv("USER_URL")
+	userURL := os.Getenv("USER_URL")
+
+	// grpc gateway
+	defer glog.Flush()
+
+	if err := run(itemURL, userURL); err != nil {
+		glog.Fatal(err)
+	}
+}
+
+/*
 	//coordinateURL := os.Getenv("COORDINATE_URL")
 
 	itemClient, err := item.NewClient(itemURL)
@@ -58,15 +72,6 @@ func main() {
 	}
 	log.Println(items)
 
-	// grpc gateway
-	defer glog.Flush()
-
-	if err := run(itemURL); err != nil {
-		glog.Fatal(err)
-	}
-}
-
-/*
 	userClient, err := user.NewClient(userURL)
 	if err != nil {
 		log.Fatal(err)
