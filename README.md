@@ -4,6 +4,8 @@ A sample implementation of micro services written in Go with Protocal Buffer, gR
 
 ![alt text](https://user-images.githubusercontent.com/26586593/45367854-24a68600-b61d-11e8-865a-43bfdd7bc431.png)
 
+inspired by https://github.com/tinrab/spidey
+
 # Execute following commands to build up services
 ```
 $ dep init
