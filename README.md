@@ -14,16 +14,19 @@ $ docker-compose up --build client
 
 open `localhost:8000` in your browser.
 
-# Endpoints
+# HTTP endpoints
 ## Items
 - `GET: /item/{id}`
 - `POST: /item`
+  - e.g. `$ curl -X POST localhost:8000/item -d '{"name": "glove", "price": 3000}'`
 
 ## Users
 - `GET: /user/{id}`
 - `POST: /user`
+  - e.g. `$ curl -X POST localhost:8000/user -d '{"name": "conor"}'`
 
 ## Coordinates
 - `GET: /item/{itemId}/coordinates`
 - `POST: /coordinate`
+  - e.g. `$ curl -X POST localhost:8000/coordinate -d '{"userId": 1, "itemIds": [2,3,4]}'`
 
