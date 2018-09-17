@@ -4,7 +4,7 @@ COPY vendor ../vendor
 COPY item ../item
 COPY user ../user
 COPY coordinate ../coordinate
-COPY cli ./
+COPY gateway ./
 RUN go build -o /go/bin/app main/main.go
 
 FROM alpine:3.8
