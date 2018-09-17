@@ -62,10 +62,10 @@ services:
       POSTGRES_PASSWORD: "takewaka"
     restart: "unless-stopped"
 
-  client:
+  gateway:
     build:
       context: "."
-      dockerfile: "./cli/cli.dockerfile"
+      dockerfile: "./gateway/gateway.dockerfile"
     ports:
       - "8000:8080"
     depends_on:

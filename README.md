@@ -9,7 +9,7 @@ inspired by https://github.com/tinrab/spidey
 # Execute following commands to build up services
 ```
 $ dep init
-$ docker-compose up --build client
+$ docker-compose up --build gateway
 ```
 
 open `localhost:8000` in your browser.
