@@ -17,7 +17,6 @@ func NewClient(url string) (*Client, error) {
 	if err != nil {
 		return nil, err
 	}
-
 	client := pb.NewItemServiceClient(conn)
 	return &Client{conn, client}, nil
 }
@@ -46,14 +45,10 @@ func (client *Client) GetItems(ctx context.Context, ids []int32) ([]*pb.Item, er
 	return res.Items, nil
 }
 
-func (client *Client) PostItem(ctx context.Context, name string, price int32) (*pb.Item, error) {
-	res, err := client.service.PostItem(ctx, &pb.PostItemRequest{Name: name, Price: price})
+func (client *Client) PostItem(ctx context.Context, name string, price int32) error {
+	err := client.service.PostItem(ctx, &pb.PostItemRequest{Name: name, Price: price})
 	if err != nil {
-		return nil, err
+		return err
 	}
-	return &pb.Item{
-		Id:    res.Item.Id,
-		Name:  res.Item.Name,
-		Price: res.Item.Price,
-	}, nil
+	return nil
 }

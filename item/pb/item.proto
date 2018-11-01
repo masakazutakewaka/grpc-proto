@@ -3,15 +3,16 @@ syntax = "proto3";
 package pb;
 
 import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
 
 service ItemService {
-  rpc getItem (getItemRequest) returns (getItemResponse) {
+  rpc getItem (GetItemRequest) returns (GetItemResponse) {
     option (google.api.http) = {
       get: "/item/{id}"
     };
   }
-  rpc getItems (getItemsRequest) returns (getItemsResponse) {}
-  rpc postItem (postItemRequest) returns (postItemResponse) {
+  rpc getItems (GetItemsRequest) returns (GetItemsResponse) {}
+  rpc postItem (PostItemRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
       post: "/item"
       body: "*"
@@ -25,27 +26,23 @@ message Item {
   int32 price = 3;
 }
 
-message getItemRequest {
+message GetItemRequest {
   int32 id = 1;
 }
 
-message getItemResponse {
+message GetItemResponse {
   Item item = 1;
 }
 
-message getItemsRequest {
+message GetItemsRequest {
   repeated int32 ids = 1;
 }
 
-message getItemsResponse {
+message GetItemsResponse {
   repeated Item items = 1;
 }
 
-message postItemRequest {
+message PostItemRequest {
   string name = 1;
   int32 price = 2;
-}
-
-message postItemResponse {
-  Item item = 1;
 }
