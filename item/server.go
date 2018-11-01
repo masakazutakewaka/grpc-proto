@@ -42,11 +42,10 @@ func (s *itemServer) GetItems(ctx context.Context, r *pb.GetItemsRequest) (*pb.G
 	return &pb.GetItemsResponse{Items: items}, nil
 }
 
-func (s *itemServer) PostItem(ctx context.Context, r *pb.PostItemRequest) (*pb.PostItemResponse, error) {
+func (s *itemServer) PostItem(ctx context.Context, r *pb.PostItemRequest) error {
 	err := s.r.InsertItem(ctx, r.Name, r.Price)
 	if err != nil {
-		return nil, err
+		return err
 	}
-	item := &pb.Item{}
-	return &pb.PostItemResponse{Item: item}, nil
+	return nil
 }
