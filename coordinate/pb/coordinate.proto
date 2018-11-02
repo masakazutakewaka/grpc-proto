@@ -3,14 +3,15 @@ syntax = "proto3";
 package pb;
 
 import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
 
 service CoordinateService {
-  rpc getCoordinatesByUser (getCoordinatesByUserRequest) returns (getCoordinatesByUserResponse) {
+  rpc getCoordinatesByUser (GetCoordinatesByUserRequest) returns (GetCoordinatesByUserResponse) {
     option (google.api.http) = {
       get: "/user/{userId}/coordinates"
     };
   }
-  rpc postCoordinate (postCoordinateRequest) returns (postCoordinateResponse) {
+  rpc postCoordinate (PostCoordinateRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
       post: "/coordinate"
       body: "*"
@@ -24,18 +25,15 @@ message Coordinate {
   repeated int32 itemIds = 3;
 }
 
-message getCoordinatesByUserRequest {
+message GetCoordinatesByUserRequest {
   int32 userId = 1;
 }
 
-message getCoordinatesByUserResponse {
+message GetCoordinatesByUserResponse {
   repeated Coordinate coordinates = 1;
 }
 
-message postCoordinateRequest {
+message PostCoordinateRequest {
   int32 userId = 1;
   repeated int32 itemIds = 2;
-}
-
-message postCoordinateResponse {
 }
