@@ -42,10 +42,10 @@ func (s *userServer) GetUsers(ctx context.Context, r *pb.GetUsersRequest) (*pb.G
 	return &pb.GetUsersResponse{Users: users}, nil
 }
 
-func (s *userServer) PostUser(ctx context.Context, r *pb.PostUserRequest) (*pb.PostUserResponse, error) {
+func (s *userServer) PostUser(ctx context.Context, r *pb.PostUserRequest) error {
 	err := s.r.InsertUser(ctx, r.Name)
 	if err != nil {
-		return nil, err
+		return err
 	}
-	return &pb.PostUserResponse{}, nil
+	return nil
 }

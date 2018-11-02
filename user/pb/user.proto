@@ -3,15 +3,16 @@ syntax = "proto3";
 package pb;
 
 import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
 
 service UserService {
-  rpc getUser (getUserRequest) returns (getUserResponse) {
+  rpc getUser (GetUserRequest) returns (GetUserResponse) {
     option (google.api.http) = {
       get: "/user/{id}"
     };
   }
-  rpc getUsers (getUsersRequest) returns (getUsersResponse) {}
-  rpc postUser (postUserRequest) returns (postUserResponse) {
+  rpc getUsers (GetUsersRequest) returns (GetUsersResponse) {}
+  rpc postUser (PostUserRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
       post: "/user"
       body: "*"
@@ -24,26 +25,23 @@ message User {
   string name = 2;
 }
 
-message getUserRequest {
+message GetUserRequest {
   int32 id = 1;
 }
 
-message getUserResponse {
+message GetUserResponse {
   User user = 1;
 }
 
-message getUsersRequest {
+message GetUsersRequest {
   int32 skip = 1;
   int32 take = 2;
 }
 
-message getUsersResponse {
+message GetUsersResponse {
   repeated User users = 1;
 }
 
-message postUserRequest {
+message PostUserRequest {
   string name = 1;
-}
-
-message postUserResponse {
 }

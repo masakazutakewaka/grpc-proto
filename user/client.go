@@ -46,6 +46,9 @@ func (client *Client) GetUsers(ctx context.Context, skip int32, take int32) ([]*
 }
 
 func (client *Client) PostUser(ctx context.Context, name string) error {
-	_, err := client.service.PostUser(ctx, &pb.PostUserRequest{Name: name})
-	return err
+	err := client.service.PostUser(ctx, &pb.PostUserRequest{Name: name})
+	if err != nil {
+		return err
+	}
+	return nil
 }
