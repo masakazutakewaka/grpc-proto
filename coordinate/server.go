@@ -56,20 +56,20 @@ func (s *coordinateServer) GetCoordinatesByUser(ctx context.Context, r *pb.GetCo
 	return &pb.GetCoordinatesByUserResponse{Coordinates: coordinates}, nil
 }
 
-func (s *coordinateServer) PostCoordinate(ctx context.Context, r *pb.PostCoordinateRequest) (*pb.PostCoordinateResponse, error) {
+func (s *coordinateServer) PostCoordinate(ctx context.Context, r *pb.PostCoordinateRequest) error {
 	_, err := s.userClient.GetUser(ctx, r.UserId)
 	if err != nil {
-		return nil, err
+		return err
 	}
 
 	_, err = s.itemClient.GetItems(ctx, r.ItemIds)
 	if err != nil {
-		return nil, err
+		return err
 	}
 
 	err = s.r.InsertCoordinate(ctx, r.UserId, r.ItemIds)
 	if err != nil {
-		return nil, err
+		return err
 	}
-	return &pb.PostCoordinateResponse{}, nil
+	return nil
 }

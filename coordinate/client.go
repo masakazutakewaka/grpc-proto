@@ -35,6 +35,9 @@ func (client *Client) GetCoordinatesByUser(ctx context.Context, userId int32) ([
 }
 
 func (client *Client) PostCoordinate(ctx context.Context, userId int32, itemIds []int32) error {
-	_, err := client.service.PostCoordinate(ctx, &pb.PostCoordinateRequest{UserId: userId, ItemIds: itemIds})
-	return err
+	err := client.service.PostCoordinate(ctx, &pb.PostCoordinateRequest{UserId: userId, ItemIds: itemIds})
+	if err != nil {
+		return err
+	}
+	return nil
 }
