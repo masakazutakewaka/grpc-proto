@@ -5,6 +5,7 @@ import (
 	"golang.org/x/net/context"
 	"net"
 
+	"github.com/golang/protobuf/ptypes/empty"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 
@@ -42,10 +43,10 @@ func (s *userServer) GetUsers(ctx context.Context, r *pb.GetUsersRequest) (*pb.G
 	return &pb.GetUsersResponse{Users: users}, nil
 }
 
-func (s *userServer) PostUser(ctx context.Context, r *pb.PostUserRequest) error {
+func (s *userServer) PostUser(ctx context.Context, r *pb.PostUserRequest) (*empty.Empty, error) {
 	err := s.r.InsertUser(ctx, r.Name)
 	if err != nil {
-		return err
+		return nil, err
 	}
-	return nil
+	return &empty.Empty{}, nil
 }
