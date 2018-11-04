@@ -30,11 +30,7 @@ func (client *Client) GetItem(ctx context.Context, id int32) (*pb.Item, error) {
 	if err != nil {
 		return nil, err
 	}
-	return &pb.Item{
-		Id:    res.Item.Id,
-		Name:  res.Item.Name,
-		Price: res.Item.Price,
-	}, nil
+	return res.Item, nil
 }
 
 func (client *Client) GetItems(ctx context.Context, ids []int32) ([]*pb.Item, error) {
