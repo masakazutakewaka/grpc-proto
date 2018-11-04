@@ -53,11 +53,11 @@ func (r *postgresRepository) GetItemByID(ctx context.Context, id int32) (*pb.Ite
 
 func (r *postgresRepository) GetItemsByIds(ctx context.Context, ids []int32) ([]*pb.Item, error) {
 	rows, err := r.db.QueryContext(ctx, `SELECT id, name, price FROM items WHERE id = ANY ($1)`, pq.Array(ids))
-	items := []*pb.Item{}
 	if err != nil {
 		return nil, err
 	}
 
+	items := []*pb.Item{}
 	for rows.Next() {
 		item := &pb.Item{}
 		if err := rows.Scan(&item.Id, &item.Name, &item.Price); err != nil {

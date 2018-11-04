@@ -1,10 +1,12 @@
 package coordinate
 
 import (
+	"errors"
 	"fmt"
 	"golang.org/x/net/context"
 	"net"
 
+	"github.com/golang/protobuf/ptypes/empty"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 
@@ -56,20 +58,23 @@ func (s *coordinateServer) GetCoordinatesByUser(ctx context.Context, r *pb.GetCo
 	return &pb.GetCoordinatesByUserResponse{Coordinates: coordinates}, nil
 }
 
-func (s *coordinateServer) PostCoordinate(ctx context.Context, r *pb.PostCoordinateRequest) error {
+func (s *coordinateServer) PostCoordinate(ctx context.Context, r *pb.PostCoordinateRequest) (*empty.Empty, error) {
 	_, err := s.userClient.GetUser(ctx, r.UserId)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
-	_, err = s.itemClient.GetItems(ctx, r.ItemIds)
+	items, err := s.itemClient.GetItems(ctx, r.ItemIds)
 	if err != nil {
-		return err
+		return nil, err
+	}
+	if len(r.ItemIds) != len(items) {
+		return nil, errors.New("Coordinate contains items that do not exist.")
 	}
 
 	err = s.r.InsertCoordinate(ctx, r.UserId, r.ItemIds)
 	if err != nil {
-		return err
+		return nil, err
 	}
-	return nil
+	return &empty.Empty{}, nil
 }
