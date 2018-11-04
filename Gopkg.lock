@@ -10,7 +10,7 @@
   revision = "23def4e6c14b4da8ac2ed8007337bc5eb5007998"
 
 [[projects]]
-  digest = "1:0a7ddae0f9b0357691225e6048e0d4ea0253d94f3f951808df3e0ad556051433"
+  digest = "1:6b3f47fc2d485d7669dc9e7bea056d721b3fa417d83fd295d45de1376738568e"
   name = "github.com/golang/protobuf"
   packages = [
     "jsonpb",
@@ -19,6 +19,7 @@
     "ptypes",
     "ptypes/any",
     "ptypes/duration",
+    "ptypes/empty",
     "ptypes/struct",
     "ptypes/timestamp",
   ]
@@ -150,6 +151,7 @@
   input-imports = [
     "github.com/golang/glog",
     "github.com/golang/protobuf/proto",
+    "github.com/golang/protobuf/ptypes/empty",
     "github.com/grpc-ecosystem/grpc-gateway/runtime",
     "github.com/grpc-ecosystem/grpc-gateway/utilities",
     "github.com/lib/pq",
