@@ -42,7 +42,7 @@ func (client *Client) GetItems(ctx context.Context, ids []int32) ([]*pb.Item, er
 }
 
 func (client *Client) PostItem(ctx context.Context, name string, price int32) error {
-	err := client.service.PostItem(ctx, &pb.PostItemRequest{Name: name, Price: price})
+	_, err := client.service.PostItem(ctx, &pb.PostItemRequest{Name: name, Price: price})
 	if err != nil {
 		return err
 	}

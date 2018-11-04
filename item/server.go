@@ -5,6 +5,7 @@ import (
 	"golang.org/x/net/context"
 	"net"
 
+	"github.com/golang/protobuf/ptypes/empty"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 
@@ -42,10 +43,10 @@ func (s *itemServer) GetItems(ctx context.Context, r *pb.GetItemsRequest) (*pb.G
 	return &pb.GetItemsResponse{Items: items}, nil
 }
 
-func (s *itemServer) PostItem(ctx context.Context, r *pb.PostItemRequest) error {
+func (s *itemServer) PostItem(ctx context.Context, r *pb.PostItemRequest) (*empty.Empty, error) {
 	err := s.r.InsertItem(ctx, r.Name, r.Price)
 	if err != nil {
-		return err
+		return nil, err
 	}
-	return nil
+	return &empty.Empty{}, nil
 }
