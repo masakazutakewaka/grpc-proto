@@ -3,13 +3,14 @@ package coordinate
 import (
 	"database/sql"
 	"golang.org/x/net/context"
-	"strconv"
-	"strings"
 
-	_ "github.com/lib/pq"
+	"github.com/golang/glog"
+	"github.com/lib/pq"
 
 	"github.com/masakazutakewaka/grpc-proto/coordinate/pb"
 )
+
+const MaxItemCnt = 10
 
 type Repository interface {
 	Close()
@@ -44,54 +45,81 @@ func (r *postgresRepository) Ping() error {
 }
 
 func (r *postgresRepository) GetCoordinatesByUserId(ctx context.Context, userId int32) ([]*pb.Coordinate, error) {
-	rows, err := r.db.QueryContext(ctx, "SELECT id, item_ids FROM coordinates WHERE user_id = $1", userId)
-	coordinates := []*pb.Coordinate{}
+	rows, err := r.db.QueryContext(ctx, "SELECT c.id, ci.item_id FROM coordinates AS c INNER JOIN coordinate_items AS ci ON c.id = ci.coordinate_id WHERE c.user_id = $1", userId)
 	if err != nil {
 		return nil, err
 	}
 
-	var itemIds string
+	coordinates := []*pb.Coordinate{}
+	itemsForCoordinate := make([][]int32, MaxItemCnt)
 
 	for rows.Next() {
-		coordinate := &pb.Coordinate{}
-		if err := rows.Scan(&coordinate.Id, &itemIds); err != nil {
+		var (
+			itemId       int
+			coordinateId int
+		)
+
+		if err := rows.Scan(&coordinateId, &itemId); err != nil {
 			return nil, err
 		}
-		coordinate.UserId = userId
-		coordinate.ItemIds, err = SliceItemIds(itemIds)
-		if err != nil {
-			return nil, err
-		}
-		coordinates = append(coordinates, coordinate)
+
+		itemsForCoordinate[coordinateId] = append(itemsForCoordinate[coordinateId], int32(itemId))
 	}
 	if err := rows.Err(); err != nil {
 		return nil, err
 	}
+
+	for _, items := range itemsForCoordinate {
+		if len(items) == 0 {
+			continue
+		}
+		coordinate := &pb.Coordinate{}
+		coordinate.UserId = userId
+		coordinate.ItemIds = items
+		coordinates = append(coordinates, coordinate)
+	}
+
 	return coordinates, nil
 }
 
 func (r *postgresRepository) InsertCoordinate(ctx context.Context, userId int32, itemIds []int32) error {
-	_, err := r.db.ExecContext(ctx, "INSERT INTO coordinates(user_id, item_ids) VALUES($1, $2)", userId, BundleItemIds(itemIds))
-	return err
-}
-
-func SliceItemIds(itemIds string) ([]int32, error) {
-	sliced := []int32{}
-	splited := strings.Split(itemIds, ", ")
-	for _, itemId := range splited {
-		strId, err := strconv.Atoi(itemId)
-		if err != nil {
-			return nil, err
-		}
-		sliced = append(sliced, int32(strId))
+	var coordinateId int
+	row := r.db.QueryRowContext(ctx, "INSERT INTO coordinates(user_id) VALUES($1) RETURNING id", userId)
+	if err := row.Scan(&coordinateId); err != nil {
+		glog.Error(err)
 	}
-	return sliced, nil
-}
 
-func BundleItemIds(itemIds []int32) string {
-	bundled := []string{}
+	tx, err := r.db.Begin()
+	if err != nil {
+		glog.Error(err)
+	}
+
+	stmt, err := tx.Prepare(pq.CopyIn("coordinate_items", "coordinate_id", "item_id"))
+	if err != nil {
+		glog.Error(err)
+	}
+
 	for _, itemId := range itemIds {
-		bundled = append(bundled, strconv.Itoa(int(itemId)))
+		_, err = stmt.Exec(coordinateId, itemId)
+		if err != nil {
+			glog.Error(err)
+		}
 	}
-	return strings.Join(bundled, ", ")
+
+	_, err = stmt.Exec()
+	if err != nil {
+		glog.Error(err)
+	}
+
+	err = stmt.Close()
+	if err != nil {
+		glog.Error(err)
+	}
+
+	err = tx.Commit()
+	if err != nil {
+		glog.Error(err)
+	}
+
+	return nil
 }
